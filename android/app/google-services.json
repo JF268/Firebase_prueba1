@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "207617129560",
+    "project_id": "tareas-f54e0",
+    "storage_bucket": "tareas-f54e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207617129560:android:e8bdb289e068bc3be65e2d",
+        "android_client_info": {
+          "package_name": "com.livcode.tareas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207617129560-h7afk4n0uatmo7mep2ae1pm5d5o9auj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfhUmUuA8ZF4lEc7YmWU23HbcjABiPBSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207617129560-h7afk4n0uatmo7mep2ae1pm5d5o9auj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
