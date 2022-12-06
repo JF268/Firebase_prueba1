@@ -54,8 +54,18 @@ class HomePage extends StatelessWidget {
               print("La eliminación del documento");
             });
           }, 
-          
-          child: Text("Eliminar documento"))
+          child: Text("Eliminar documento")),
+          //documentos personalizados
+          ElevatedButton(onPressed: (){
+            tasksReference.doc("A00001").set({
+              "title" : "Ir al dentista",
+              "description": "curar diente",
+            }).catchError((error){
+              print(error);
+            }).whenComplete(() => (){
+              print("Creación completada");
+            });
+          }, child: Text("Agregar tarea personalizado"))
 
         ],),
       ),
