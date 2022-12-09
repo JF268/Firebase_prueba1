@@ -25,7 +25,6 @@ class ItemTaskWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemCategoryWidget(text: "Trabajo",
-                  
                   ),
                     divider3(),
                   Text("Lorem ipsum dolor sit asset",style: TextStyle(
