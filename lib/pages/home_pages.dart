@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
 import 'package:tareas/ui/widgets/item_task_widget.dart';
+import '../models/task_model.dart';
 import '../ui/widgets/textfield_widget_search.dart';
 
 class HomePage extends StatelessWidget {
@@ -100,9 +101,39 @@ class HomePage extends StatelessWidget {
               Text("Todas mis tareas", style: TextStyle(fontSize: 14.0,fontWeight: FontWeight.w600,
               color: kBrandPrymaryColor),),
 
-              ItemTaskWidget(),
-              ItemTaskWidget(),
-              ItemTaskWidget(),
+                StreamBuilder(
+                  stream: tasksReference.snapshots(),
+                  builder:(BuildContext context, AsyncSnapshot snap){
+                    if(snap.hasData){
+                      List<TaskModel> tasks = [];
+                      QuerySnapshot collection = snap.data;
+                      /*
+                      1 forma
+                      collection.docs.forEach((element) {
+                      Map<String,dynamic> myMap = element.data() as Map<String,dynamic>;
+                      tasks.add(TaskModel.fromJson(myMap));
+                      });*/
+
+                      //2da forma
+                      tasks = collection.docs.map((e) => TaskModel.fromJson(e.data() as Map<String,dynamic>)).toList();
+                      
+                      return ListView.builder(
+                        itemCount: tasks.length,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index){
+                          return ItemTaskWidget(
+                            taskModel: tasks[index],
+                          );
+                        }
+                        
+                      );
+                    }
+                    return loadingWidget();
+                    
+                  },
+                  ),
+             
               
             ]),)
           ],

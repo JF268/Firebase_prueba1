@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tareas/models/task_model.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
 import 'package:tareas/ui/widgets/item_category.dart';
 
 import '../general/colors.dart';
 
 class ItemTaskWidget extends StatelessWidget {
-  const ItemTaskWidget({super.key});
+  TaskModel taskModel;
+
+  ItemTaskWidget({required this.taskModel});
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +27,20 @@ class ItemTaskWidget extends StatelessWidget {
               child: Column( 
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ItemCategoryWidget(text: "Trabajo",
+                  ItemCategoryWidget(text: taskModel.category,
                   ),
                     divider3(),
-                  Text("Lorem ipsum dolor sit asset",style: TextStyle(
+                  Text(taskModel.title,style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                     color: kBrandPrymaryColor.withOpacity(0.85)),),
                     divider6(),                  
-                  Text("lorem ipsun wele dolo inpery san bvold dlain flat wen tusk pro adr lasusre",style: TextStyle(
+                  Text(taskModel.description,style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
                     color: kBrandPrymaryColor.withOpacity(0.75))),
                     divider6(),
-                  Text("10/12/2022",style: TextStyle(
+                  Text(taskModel.date,style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
                     color: kBrandPrymaryColor.withOpacity(0.75))),

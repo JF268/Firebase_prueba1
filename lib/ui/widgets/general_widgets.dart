@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:tareas/ui/general/colors.dart';
 
 Widget divider3() => const SizedBox(height: 3,);
 Widget divider6() => const SizedBox(height: 6,);
@@ -15,3 +16,15 @@ Widget divider3w() => const SizedBox(width: 3,);
 Widget divider6w() => const SizedBox(width: 6,);
 Widget divider10w() => const SizedBox(width: 10,);
 Widget divider20w() => const SizedBox(width: 20,);
+
+
+Widget loadingWidget() => Center(
+          child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+          color: kBrandPrymaryColor,
+          strokeWidth: 2.2,
+        ),
+  ),
+);
