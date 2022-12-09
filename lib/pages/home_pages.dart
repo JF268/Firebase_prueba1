@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
+import 'package:tareas/ui/widgets/item_task_widget.dart';
 import '../ui/widgets/textfield_widget_search.dart';
 
 class HomePage extends StatelessWidget {
@@ -97,46 +98,12 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               Text("Todas mis tareas", style: TextStyle(fontSize: 14.0,fontWeight: FontWeight.w600,
-            color: kBrandPrymaryColor),),
-            Container( 
-              padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 12),
-              decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14.0),
-              color: Colors.white,
-              boxShadow: [BoxShadow( 
-                color: Colors.black.withOpacity(0.05),
-                offset: const Offset(4, 4),
-                blurRadius: 12.0
-              )]),
-              child: Column( 
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2.5),
-                    decoration: BoxDecoration(
-                      color: Color(0xff3E80FF),
-                      borderRadius: BorderRadius.circular(6.0)),
-                    child: Text("Personal", style: TextStyle(color: Colors.white,
-                    fontSize: 13.0)),
-                  ),
-                    divider3(),
-                  Text("Lorem ipsum dolor sit asset",style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w600,
-                    color: kBrandPrymaryColor.withOpacity(0.85)),),
-                    divider6(),                  
-                  Text("lorem ipsun wele dolo inpery san bvold dlain flat wen tusk pro adr lasusre",style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    color: kBrandPrymaryColor.withOpacity(0.75))),
-                    divider6(),
-                  Text("10/12/2022",style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    color: kBrandPrymaryColor.withOpacity(0.75))),
-                ],
-              ),
-            )
+              color: kBrandPrymaryColor),),
+
+              ItemTaskWidget(),
+              ItemTaskWidget(),
+              ItemTaskWidget(),
+              
             ]),)
           ],
         ),
