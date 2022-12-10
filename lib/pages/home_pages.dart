@@ -21,13 +21,18 @@ class HomePage extends StatelessWidget {
     return 1000;
   }
   */
+  final TextEditingController _searchController = TextEditingController();
 
   showTaskForm(BuildContext context){
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context, 
       backgroundColor: Colors.transparent,
       builder: (BuildContext context){
-        return TaskFormWidget();
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: TaskFormWidget(),
+        );
       //fin container
       });
   }
@@ -103,6 +108,7 @@ class HomePage extends StatelessWidget {
                       child: TextFieldNormalWidget(
                         icon: Icons.search,
                         hintText: "Buscar tarea",
+                        controller: _searchController,
                       ),
                     ),
                   ]),
