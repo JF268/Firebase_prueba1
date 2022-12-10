@@ -24,7 +24,9 @@ class ItemTaskWidget extends StatelessWidget {
                 offset: const Offset(4, 4),
                 blurRadius: 12.0
               )]),
-              child: Column( 
+              child: Stack(children: [
+                 Column( 
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ItemCategoryWidget(text: taskModel.category,
@@ -46,6 +48,31 @@ class ItemTaskWidget extends StatelessWidget {
                     color: kBrandPrymaryColor.withOpacity(0.75))),
                 ],
               ),
+                 Positioned(
+                  top: -10,
+                  right: -12,
+                   child: PopupMenuButton(
+                    elevation: 2,
+                    color: Colors.white,
+                    icon: Icon(Icons.more_vert, color: kBrandPrymaryColor.withOpacity(0.85),),
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    onSelected: (value) {
+                      print(2);
+                    },
+                    itemBuilder: (BuildContext context){
+                    return [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text("Editar")),
+                      PopupMenuItem(
+                        value: 2,
+                        child: Text("Finalizar")),
+                    ];
+                   }),
+                 )
+              ],)
             );
   }
 }
