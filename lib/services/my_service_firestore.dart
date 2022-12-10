@@ -19,6 +19,14 @@ class MyServiceFirestore{
 
   //borrar
 
+  Future <void> finishiedTask(String taskId) async{
+    await _collectionReference.doc(taskId).update(
+      {
+        "status": false,
+      },
+    );
+  }
+
 
   //update
 

@@ -1,14 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:tareas/models/task_model.dart';
+import 'package:tareas/services/my_service_firestore.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
 import 'package:tareas/ui/widgets/item_category.dart';
 
 import '../general/colors.dart';
 
 class ItemTaskWidget extends StatelessWidget {
+  
   TaskModel taskModel;
-
   ItemTaskWidget({required this.taskModel});
+  final MyServiceFirestore _myServiceFirestore = MyServiceFirestore(collection: "tasks");
+
+  showFinishiedDialog(BuildContext context){
+    showDialog(
+    context: context, 
+    builder: (BuildContext context){
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Finalizar tarea", style: TextStyle(
+              color: kBrandPrymaryColor.withOpacity(0.87),
+              fontWeight: FontWeight.w600),),
+            divider10(),
+            Text("¿Deseas Finalizar esta tarea?", style: TextStyle(
+              color: kBrandPrymaryColor.withOpacity(0.87),
+              fontWeight: FontWeight.w400),),
+            divider20(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(onPressed: (){
+                  Navigator.pop(context);
+                }, child: Text("Cancelar",style: TextStyle(
+              color: kBrandPrymaryColor.withOpacity(0.5),
+              fontWeight: FontWeight.w400),)),
+                divider20w(),
+                ElevatedButton(
+                onPressed: (){
+                  _myServiceFirestore.finishiedTask(taskModel.id!);
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom( 
+                  primary: kBrandPrymaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  )
+                ), 
+                child: Text("Finalizar"))
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +80,7 @@ class ItemTaskWidget extends StatelessWidget {
                   ),
                     divider3(),
                   Text(taskModel.title,style: TextStyle(
+                    decoration: taskModel.status? TextDecoration.none: TextDecoration.lineThrough,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                     color: kBrandPrymaryColor.withOpacity(0.85)),),
@@ -59,7 +107,10 @@ class ItemTaskWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14.0),
                     ),
                     onSelected: (value) {
-                      print(2);
+                      if(value == 2){
+                        //ejecutar el metodo para finalizar
+                        showFinishiedDialog(context);
+                      }
                     },
                     itemBuilder: (BuildContext context){
                     return [
