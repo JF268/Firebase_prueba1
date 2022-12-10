@@ -5,6 +5,7 @@ import 'package:tareas/ui/widgets/button_normal-widget.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
 import 'package:tareas/ui/widgets/item_task_widget.dart';
 import 'package:tareas/ui/widgets/task_form_widget.dart';
+import 'package:tareas/utils/task_search_delegate.dart';
 import '../models/task_model.dart';
 import '../ui/widgets/textfield_normal_widget.dart';
 
@@ -122,6 +123,9 @@ class HomePage extends StatelessWidget {
                             icon: Icons.search,
                             hintText: "Buscar tarea",
                             controller: _searchController,
+                            onTap: () async{
+                              await showSearch(context: context, delegate: TaskSearchDelegate());
+                            },
                           ),
                         ),
                       ]),
