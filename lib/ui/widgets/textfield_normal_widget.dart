@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 class TextFieldNormalWidget extends StatelessWidget {
   String hintText;
   IconData icon;
+  Function? onTap;
 
   TextFieldNormalWidget({
     required this.hintText,
-    required this.icon});
+    required this.icon,
+    this.onTap,});
 
   @override
   Widget build(BuildContext context) {
     return TextField( 
-                        decoration: InputDecoration( 
+                          onTap: onTap != null ? () {onTap!();}:null,  
+                          readOnly: onTap != null? true: false,
+                          decoration: InputDecoration( 
                           prefixIcon: Icon(icon),
                           hintText: hintText,
                           hintStyle: TextStyle(fontSize:14.0,color: Color(0xff2C3550).withOpacity(0.6)),
