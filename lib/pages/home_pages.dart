@@ -49,7 +49,46 @@ class HomePage extends StatelessWidget {
                 hintText: "Descripción",
                 icon: Icons.description,
               ),
-              divider6(),
+              divider3(),
+              Text("Categoria"),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.start,
+                spacing: 10.0,
+                children: [
+                  FilterChip(
+                selected: true,
+                backgroundColor: kBrandSecondaryColor,
+                selectedColor: categoryColor["Personal"],
+                checkmarkColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                labelStyle: TextStyle(color: Colors.white),
+                label: Text("Personal"), 
+                onSelected: (bool value){
+              }),
+               FilterChip(
+                selected: true,
+                backgroundColor: kBrandSecondaryColor,
+                selectedColor: categoryColor["Trabajo"],
+                checkmarkColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                labelStyle: TextStyle(color: Colors.white),
+                label: Text("Trabajo"), 
+                onSelected: (bool value){
+              }),
+               FilterChip(
+                selected: true,
+                backgroundColor: kBrandSecondaryColor,
+                selectedColor: categoryColor["Otro"],
+                checkmarkColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                labelStyle: TextStyle(color: Colors.white),
+                label: Text("Otro"), 
+                onSelected: (bool value){
+              }),
+                ],
+              ),
+              divider10(),
               ButtonNormalWidget(),
             ],
           )
