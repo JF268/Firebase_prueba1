@@ -10,7 +10,10 @@ import '../models/task_model.dart';
 import '../ui/widgets/textfield_normal_widget.dart';
 
 class HomePage extends StatelessWidget {
-  CollectionReference tasksReference =
+      List<TaskModel> tasksGeneral = [];
+
+
+      CollectionReference tasksReference =
       FirebaseFirestore.instance.collection('tasks');
 /*
   Stream<int> counter() async*{
@@ -124,7 +127,7 @@ class HomePage extends StatelessWidget {
                             hintText: "Buscar tarea",
                             controller: _searchController,
                             onTap: () async{
-                              await showSearch(context: context, delegate: TaskSearchDelegate());
+                              await showSearch(context: context, delegate: TaskSearchDelegate(tasks: tasksGeneral));
                             },
                           ),
                         ),
@@ -170,6 +173,8 @@ class HomePage extends StatelessWidget {
                               task.id = e.id;
                               return task;
                             }).toList();
+                            tasksGeneral.clear();
+                            tasksGeneral = tasks;
 
                             return ListView.builder(
                                 itemCount: tasks.length,
