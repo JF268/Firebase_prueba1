@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tareas/models/task_model.dart';
+import 'package:tareas/services/my_service_firestore.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/button_normal-widget.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
@@ -15,6 +17,8 @@ class TaskFormWidget extends StatefulWidget {
 class _TaskFormWidgetState extends State<TaskFormWidget> {
 //variables para controlar los campos del formulario
   final formKey = GlobalKey<FormState>();
+
+  MyServiceFirestore taskService = MyServiceFirestore(collection: "tasks");
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -47,7 +51,28 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
     }
   }
 
+  registerTask(){
+    if(formKey.currentState!.validate()){
+      //
+     TaskModel taskModel = TaskModel(
+      title: _titleController.text, 
+      description: _descriptionController.text, 
+      date: _dateController.text, 
+      category: categorySelected, 
+      status: true,);
+     taskService.addTask(taskModel).then((value){
+      if(value.isNotEmpty){
+        //cerrar la ventana
+        Navigator.pop(context);
+        showSnackBarSuccess(context, "La tarea se guardó con éxito");
+      }
 
+      }).catchError((error){
+        showSnackBarError(context, "Se ha producido un error, vuelve a intentarlo");
+
+      });                 
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -117,7 +142,7 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
                   checkmarkColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   labelStyle: TextStyle(color: categorySelected == "Otro" ? Colors.white : kBrandPrymaryColor),
-                  label: Text("Personal"), 
+                  label: Text("Otro"), 
                   onSelected: (bool value){
                     categorySelected = "Otro";
                     setState(() {});
@@ -154,9 +179,7 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
                 
                 ButtonNormalWidget(
                   onPressed: (){
-                    if(formKey.currentState!.validate()){
-
-                    }
+                    registerTask();
                   },
                 ),
               ],
