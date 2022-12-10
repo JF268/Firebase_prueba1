@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tareas/ui/general/colors.dart';
+import 'package:tareas/ui/widgets/button_normal-widget.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
 import 'package:tareas/ui/widgets/item_task_widget.dart';
 import '../models/task_model.dart';
-import '../ui/widgets/textfield_widget_search.dart';
+import '../ui/widgets/textfield_normal_widget.dart';
 
 class HomePage extends StatelessWidget {
   CollectionReference tasksReference = FirebaseFirestore.instance.collection('tasks');
@@ -19,13 +20,49 @@ class HomePage extends StatelessWidget {
     return 1000;
   }
   */
+
+  showTaskForm(BuildContext context){
+    showModalBottomSheet(
+      context: context, 
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context){
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(22.0),
+            topRight: Radius.circular(22.0))
+          ), 
+          padding: EdgeInsets.all(14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [ 
+              Text("Agregar tarea",style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15.0),),
+              divider10(),
+              TextFieldNormalWidget(
+                hintText: "Titulo",
+                icon: Icons.text_fields,
+              ),
+              divider6(),
+              TextFieldNormalWidget(
+                hintText: "Descripción",
+                icon: Icons.description,
+              ),
+              divider6(),
+              ButtonNormalWidget(),
+            ],
+          )
+        );
+      });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF4F6FF),
       floatingActionButton: InkWell(
         onTap: (){
-
+          showTaskForm(context);
         },
         borderRadius: BorderRadius.circular(14.0),
         child: Container(
@@ -88,7 +125,10 @@ class HomePage extends StatelessWidget {
                               ),
                             ], 
                           ),
-                      child: TextFieldSearchWidget(),
+                      child: TextFieldNormalWidget(
+                        icon: Icons.search,
+                        hintText: "Buscar tarea",
+                      ),
                     ),
                   ]),
               ),
@@ -116,7 +156,7 @@ class HomePage extends StatelessWidget {
 
                       //2da forma
                       tasks = collection.docs.map((e) => TaskModel.fromJson(e.data() as Map<String,dynamic>)).toList();
-                      
+
                       return ListView.builder(
                         itemCount: tasks.length,
                         shrinkWrap: true,
