@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tareas/ui/general/colors.dart';
@@ -18,6 +19,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fullnameController = TextEditingController();
+
+  _registerUser() async{
+   UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: "jfrancoromero10@gmail.com", 
+      password: "guadalajara14",
+      );
+      print(userCredential);
+  }
   
 
   @override
@@ -33,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
               SvgPicture.asset("assets/images/register.svg",
               height: 180.0,),
               divider20(),
-              Text("Iniciar Sesión", style: TextStyle(
+              Text("Regístrate", style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.w600,
                 color: kBrandPrymaryColor),),
@@ -50,7 +59,10 @@ class _RegisterPageState extends State<RegisterPage> {
               divider10(),
               ButtonCustomWidget(text: "Registrate", 
               color: kBrandPrymaryColor, 
-              icon: "check"),  
+              icon: "check",
+              onPressed: (){
+                _registerUser();
+              },),  
           ]),
 
         ),
