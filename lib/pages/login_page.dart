@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tareas/pages/home_pages.dart';
 import 'package:tareas/pages/register_page.dart';
 import 'package:tareas/ui/general/colors.dart';
@@ -22,7 +23,10 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final GoogleSignIn _googleSigIn =  GoogleSignIn(scopes: ["email"]);
 
+
+  //Login normal
   _login() async{
     try{
       if(formKey.currentState!.validate()){
@@ -43,6 +47,26 @@ class _LoginPageState extends State<LoginPage> {
         showSnackBarError(context, "Contraseña incorrecta");
       }
     }
+  }
+
+  //Login con google
+  _loginWithGoogle() async{
+   GoogleSignInAccount? googleSignInAccount = await _googleSigIn.signIn();
+    
+    if(googleSignInAccount == null){
+      return;
+    }
+
+    GoogleSignInAuthentication _googleSignInAuth = await googleSignInAccount.authentication;
+
+     OAuthCredential credential = GoogleAuthProvider.credential(
+      idToken: _googleSignInAuth.idToken ,
+      accessToken: _googleSignInAuth.accessToken ,
+    );
+
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+
   }
 
 
@@ -84,13 +108,17 @@ class _LoginPageState extends State<LoginPage> {
                   text: "Iniciar sesión con Google", 
                   color: Color(0xfff84b2a), 
                   icon: "google",
-                  onPressed: (){},),
+                  onPressed: (){
+                    _loginWithGoogle();
+                  },),
                 divider6(),
                 ButtonCustomWidget(
                   text: "Iniciar sesión con Facebook", 
                   color: Color(0xfff507CC0), 
                   icon: "facebook",
-                  onPressed: (){},),
+                  onPressed: (){
+                    _googleSigIn.signOut();
+                  },),
                 divider10(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
