@@ -18,7 +18,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final keyForm = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fullnameController = TextEditingController();
@@ -28,31 +28,22 @@ class _RegisterPageState extends State<RegisterPage> {
     //iniciando 
     try{
 
-      if(keyForm.currentState!.validate()){
-       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      if(formKey.currentState!.validate()){
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: _emailController.text, 
       password: _passwordController.text,
       ); 
-      if(userCredential.user != null){
-
-        UserModel userModel = UserModel(
-          fullName: _fullnameController.text, 
-          email: _passwordController.text,);
-
-        userService.addUser(userModel).then(((value) {
-          if(value.isNotEmpty){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
-          }
-        }));
+      if(userCredential.user !=null){
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomePage()), (route) => false);
       }
-      
       }
       //capturando errores
     }on FirebaseAuthException catch(error){
       if(error.code == "weak-password"){
         showSnackBarError(context, "La contraseña es muy débil");
-      }else if(error.code == "email-already-in-use");
-      showSnackBarError(context, "El correo electrónico está en uso");
+      }else if(error.code == "email-already-in-use"){
+        showSnackBarError(context, "El correo electrónico está en uso");
+      }
     }
   }
   
@@ -65,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: keyForm,
+            key: formKey,
             child: Column(
               children: [
                 divider30(),
