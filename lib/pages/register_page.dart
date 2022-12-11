@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tareas/models/user_model.dart';
+import 'package:tareas/pages/home_pages.dart';
+import 'package:tareas/services/my_service_firestore.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/button_custom_widget.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
@@ -19,8 +22,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fullnameController = TextEditingController();
+  MyServiceFirestore userService = MyServiceFirestore(collection: "users");
 
   _registerUser() async{
+    //iniciando 
     try{
 
       if(keyForm.currentState!.validate()){
@@ -28,7 +33,21 @@ class _RegisterPageState extends State<RegisterPage> {
       email: _emailController.text, 
       password: _passwordController.text,
       ); 
+      if(userCredential.user != null){
+
+        UserModel userModel = UserModel(
+          fullName: _fullnameController.text, 
+          email: _passwordController.text,);
+
+        userService.addUser(userModel).then(((value) {
+          if(value.isNotEmpty){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+          }
+        }));
       }
+      
+      }
+      //capturando errores
     }on FirebaseAuthException catch(error){
       if(error.code == "weak-password"){
         showSnackBarError(context, "La contraseña es muy débil");
