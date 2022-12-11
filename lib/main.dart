@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tareas/pages/home_pages.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tareas/pages/login_page.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.manropeTextTheme(),
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
     }
 }
