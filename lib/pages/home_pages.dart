@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tareas/pages/login_page.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/button_normal-widget.dart';
 import 'package:tareas/ui/widgets/general_widgets.dart';
@@ -15,6 +18,8 @@ class HomePage extends StatelessWidget {
 
       CollectionReference tasksReference =
       FirebaseFirestore.instance.collection('tasks');
+
+      final GoogleSignIn _googleSignIn = GoogleSignIn();
 /*
   Stream<int> counter() async*{
     for(int i=0;i<10;i++){
@@ -95,7 +100,12 @@ class HomePage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
                           "Bienvenido",
                           style: TextStyle(
                             fontSize: 18.0,
@@ -111,6 +121,16 @@ class HomePage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             color: Color(0xff2c3550),
                           ),
+                        ),
+                              ],
+                            ),
+                            IconButton(onPressed: (){
+                              FacebookAuth.instance.logOut();
+                              _googleSignIn.signOut();
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LoginPage()), (route) => false);
+
+                            }, icon: Icon(Icons.exit_to_app),),
+                          ],
                         ),
                         Container(
                           decoration: BoxDecoration(
