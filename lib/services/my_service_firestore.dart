@@ -29,14 +29,21 @@ class MyServiceFirestore{
     );
   }
 
-
+  //añadir usuario
   Future<String> addUser(UserModel userModel)async{
     DocumentReference documentReference = await _collectionReference.add(userModel.toJson());
     return documentReference.id;
   }
-
-
+  //verificar usuario
+  
+  Future<bool> cherckUser(String email) async{
+   QuerySnapshot collection = await _collectionReference.where("email", isEqualTo: email).get();
+   if(collection.docs.isNotEmpty){
+    return true;
+   } else{
+    return false;
+   }
+  }
   //update
-
 
 }

@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tareas/models/user_model.dart';
 import 'package:tareas/pages/home_pages.dart';
 import 'package:tareas/pages/register_page.dart';
+import 'package:tareas/services/my_service_firestore.dart';
 import 'package:tareas/ui/general/colors.dart';
 import 'package:tareas/ui/widgets/button_custom_widget.dart';
 import 'package:tareas/ui/widgets/button_normal-widget.dart';
@@ -24,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn _googleSigIn =  GoogleSignIn(scopes: ["email"]);
+  MyServiceFirestore userService = MyServiceFirestore(collection: "users");
 
 
   //Login normal
@@ -66,6 +69,23 @@ class _LoginPageState extends State<LoginPage> {
 
     UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
+    if(userCredential.user != null){
+      UserModel userModel = UserModel(
+        fullName: userCredential.user!.displayName!, 
+        email: userCredential.user!.email!,
+        );
+        userService.cherckUser(userCredential.user!.email!).then((value){
+          if(!value){
+            userService.addUser(userModel).then((value){
+              if(value.isNotEmpty){
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomePage()), (route) => false);
+              }
+            });
+          }else {
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomePage()), (route) => false);
+          }
+        });
+    }
 
   }
 
